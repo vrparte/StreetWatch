@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
   import { onMount } from 'svelte';
   import { fade, fly, scale } from 'svelte/transition';
   import { theme } from './stores/theme';
@@ -6,7 +6,7 @@
   import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
   import { faCheckCircle, faExclamationTriangle, faMapMarkerAlt, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
-  let map: L.Map;
+  let map;
   let safetyStatus = "Safe";
   let urgentAlert = null;
   let incidentHistory = [];
@@ -20,15 +20,15 @@
   ];
 
   onMount(() => {
-    if (typeof window !== 'undefined' && (window as any).L) {
-      map = (window as any).L.map('map').setView([39.1342, -84.5186], 13);
-      (window as any).L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    if (typeof window !== 'undefined' && window.L) {
+      map = window.L.map('map').setView([39.1342, -84.5186], 13);
+      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© OpenStreetMap contributors'
       }).addTo(map);
 
       incidents.forEach(incident => {
-        (window as any).L.marker(incident.coordinates)
+        window.L.marker(incident.coordinates)
           .addTo(map)
           .bindPopup(`<b>${incident.type}</b><br>${incident.location}<br>${incident.time}`);
       });
@@ -64,7 +64,6 @@
     ? "bg-gradient-to-r from-red-400 to-red-600 dark:from-red-800 dark:to-red-900"
     : "bg-gradient-to-r from-green-300 to-green-500 dark:from-green-700 dark:to-green-800";
 </script>
-
 
 <div class="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-blue-900 transition-colors duration-300 font-inter pt-0" class:dark={$theme === 'dark'}>
   <Navbar class="fixed top-0 left-0 right-0 z-50 bg-blue-600 dark:bg-blue-900 text-white" />
@@ -169,32 +168,3 @@
     </div>
   </main>
 </div>
-
-<style global lang="postcss">
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-
-  :global(body) {
-    @apply bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800;
-    font-family: 'Inter', sans-serif;
-  }
-
-  :global(.dark) {
-    @apply text-white;
-  }
-
-  .hover\:scale-101:hover {
-    transform: scale(1.01);
-  }
-
-  .hover\:scale-102:hover {
-    transform: scale(1.02);
-  }
-
-  .hover\:scale-105:hover {
-    transform: scale(1.05);
-  }
-</style>

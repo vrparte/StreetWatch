@@ -1,3 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800;
+  font-family: 'Inter', sans-serif;
+}
+
+.dark {
+  @apply text-white;
+}
+
+.hover\:scale-101:hover {
+  transform: scale(1.01);
+}
+
+.hover\:scale-102:hover {
+  transform: scale(1.02);
+}
+
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
